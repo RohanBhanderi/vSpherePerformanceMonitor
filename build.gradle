@@ -1,0 +1,40 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin:'application'
+
+sourceCompatibility = 1.7
+version = '1.0'
+
+mainClassName = 'edu.perfMonitor.PerfMonitor'
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+	manifest {
+		attributes 'Implementation-Title': 'VM Performance Monitor',
+			'Implementation-Version': version,
+			'Main-Class': 'edu.perfMonitor.PerfMonitor'
+	}
+	baseName = project.name + '-all'
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+	with jar
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile 'com.vmware:vijava:5.1'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
