@@ -25,10 +25,11 @@ public class LogsCollectorStarter {
 	
 	
 	// constructor
-	public LogsCollectorStarter() throws Exception {
+	public LogsCollectorStarter(String vmName) throws Exception {
 
 		center = Infrastructure.getInstance().getServiceInstance();
-		vm = Infrastructure.getInstance().getVirtualMachine(getVirtualMachineName());
+		//vm = Infrastructure.getInstance().getVirtualMachine(getVirtualMachineName());
+		vm = Infrastructure.getInstance().getVirtualMachine(vmName);
 		host = Infrastructure.getInstance().getHostOfVm(vm);
 		ccm = new CounterIDCounterInfoMapper(center, (VirtualMachine)vm);
 	}
